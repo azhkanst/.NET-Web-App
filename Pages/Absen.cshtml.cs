@@ -14,20 +14,19 @@ namespace Take_Home_Test___Web_App.Pages
 {
     public class AbsenModel : PageModel
     {
-        private readonly ApplicationDbContext _context; // Our database context
+        private readonly ApplicationDbContext _context; // database context
 
-        // Constructor: Dependency Injection will provide the ApplicationDbContext instance
+        // Constructor: Dependency Injection
         public AbsenModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // [BindProperty] makes AbsenVM available for both GET and POST requests
-        // and automatically binds form data to its properties on POST.
+        // AbsenVM GET and POST requests
         [BindProperty]
         public AbsenViewModel AbsenVM { get; set; }
 
-        // Handles GET requests (when the page is first loaded)
+        // Handles GET 
         public async Task<IActionResult> OnGetAsync()
         {
       
@@ -35,7 +34,7 @@ namespace Take_Home_Test___Web_App.Pages
 
             // Populate the Employees dropdown list
             AbsenVM.EmployeeList = await _context.Employee
-                                            .OrderBy(e => e.Nama) // Order alphabetically by name
+                                            .OrderBy(e => e.Nama) // Order alphabetically 
                                             .Select(e => new SelectListItem
                                             {
                                                 Value = e.NIK,
@@ -43,20 +42,19 @@ namespace Take_Home_Test___Web_App.Pages
                                             })
                                             .ToListAsync();
 
-            // Set default date for the input
+            // Set default
             AbsenVM.TanggalAbsen = DateTime.Today;
 
-            // Populate the AbsenRecords for display table
+            // Populate the AbsenRecords
             await PopulateAbsenRecordsAsync();
 
             return Page(); // Return the Razor Page
         }
 
-        // Handles POST requests (when the "Save" button is clicked)
+        // Handles POST
         public async Task<IActionResult> OnPostAsync()
         {
-            // Repopulate Employees dropdown even if ModelState is invalid,
-            // so the dropdown doesn't become empty if the form submission fails.
+  
             AbsenVM.EmployeeList = await _context.Employee
                                             .OrderBy(e => e.Nama)
                                             .Select(e => new SelectListItem
@@ -68,24 +66,23 @@ namespace Take_Home_Test___Web_App.Pages
 
             if (!ModelState.IsValid)
             {
-                // If validation fails, repopulate records and return the page with errors
+  
                 await PopulateAbsenRecordsAsync();
                 return Page();
             }
 
-            // Create a new Absen entity from the ViewModel data
             var newAbsen = new Absen
             {
                 NIK = AbsenVM.SelectedNIK,
                 TanggalAbsen = AbsenVM.TanggalAbsen 
             };
 
-            _context.Absen.Add(newAbsen); // Add to DbContext
-            await _context.SaveChangesAsync(); // Save changes to the database
+            _context.Absen.Add(newAbsen);
+            await _context.SaveChangesAsync(); 
 
-            // After successful save, reset form fields and rebind the grid
-            ModelState.Clear(); // Clear validation messages from previous post
-            AbsenVM = new AbsenViewModel(); // Create a new, clean ViewModel instance for the form
+  
+            ModelState.Clear(); // Clear validation
+            AbsenVM = new AbsenViewModel(); // Creat ViewModel
             AbsenVM.EmployeeList = await _context.Employee // Repopulate dropdown
                                             .OrderBy(e => e.Nama)
                                             .Select(e => new SelectListItem
@@ -94,20 +91,20 @@ namespace Take_Home_Test___Web_App.Pages
                                                 Text = $"{e.NIK} - {e.Nama}"
                                             })
                                             .ToListAsync();
-            AbsenVM.TanggalAbsen = DateTime.Today; // Reset date to today
+            AbsenVM.TanggalAbsen = DateTime.Today; // Reset date
 
-            await PopulateAbsenRecordsAsync(); // Re-populate the display table with the new entry
+            await PopulateAbsenRecordsAsync(); // Re-populate
 
-            TempData["SuccessMessage"] = "Absen data saved successfully!"; // Optional: show success message
-            return Page(); // Stay on the same page
+            TempData["SuccessMessage"] = "Absen data saved successfully!"; 
+            return Page(); // Stay same page
         }
 
-        // Helper method to populate the AbsenRecords for the display table
+        // Helper method
         private async Task PopulateAbsenRecordsAsync()
         {
             AbsenVM.AbsenRecords = await (from a in _context.Absen
                                           join e in _context.Employee on a.NIK equals e.NIK
-                                          orderby a.TanggalAbsen descending // Order as per your example
+                                          orderby a.TanggalAbsen descending 
                                           select new AbsenRecordViewModel
                                           {
                                               NIK = a.NIK,

@@ -1,22 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering; // Needed for SelectListItem
-using System.ComponentModel.DataAnnotations; // Needed for [Display] and [DataType]
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 public class AbsenViewModel
 {
     // Properties for the INPUT form:
     [Display(Name = "NIK - Nama")]
-    [Required(ErrorMessage = "Please select an employee.")] // Added validation
+    [Required(ErrorMessage = "Please select an employee.")]
     public string SelectedNIK { get; set; }
 
-    public List<SelectListItem> EmployeeList { get; set; } = new List<SelectListItem>(); // Initialize to avoid null reference
+    public List<SelectListItem> EmployeeList { get; set; } = new List<SelectListItem>(); 
 
     [Display(Name = "Tgl Absen")]
     [DataType(DataType.Date)]
-    [Required(ErrorMessage = "Please enter an absence date.")] // Added validation
-    public DateTime TanggalAbsen { get; set; } = DateTime.Today; // Default to today
+    [Required(ErrorMessage = "Please enter an absence date.")] 
+    public DateTime TanggalAbsen { get; set; } = DateTime.Today; 
 
-    // Properties for the DISPLAY table:
-    public List<AbsenRecordViewModel> AbsenRecords { get; set; } = new List<AbsenRecordViewModel>(); // Initialize
+
+    public List<AbsenRecordViewModel> AbsenRecords { get; set; } = new List<AbsenRecordViewModel>(); 
 
 }
 

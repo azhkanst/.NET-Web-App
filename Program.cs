@@ -5,21 +5,21 @@ using Take_Home_Test___Web_App.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// - retrieve connection string from appsetting.json
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// - This line registers your ApplicationDbContext with the Dependency Injection container
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString,
-        sqlServerOptionsAction: sqlOptions => // Add this part for SQL Server specific options
+        sqlServerOptionsAction: sqlOptions => 
         {
             sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 2,           // Maximum number of retries (e.g., 5 times)
-                maxRetryDelay: TimeSpan.FromSeconds(30), // Maximum delay between retries
-                errorNumbersToAdd: null);    // SQL error numbers to consider transient (null uses default)
+                maxRetryCount: 2,     
+                maxRetryDelay: TimeSpan.FromSeconds(30), 
+                errorNumbersToAdd: null);    
         })); //
 
-builder.Services.AddRazorPages(); // - Ensure this is also present to enable Razor Pages
+builder.Services.AddRazorPages(); 
 
 
 
@@ -48,6 +48,6 @@ app.MapGet("/", context => {
     return Task.CompletedTask;
 });
 
-app.MapRazorPages(); // - Ensure this maps your Razor Pages
+app.MapRazorPages(); // map razor page
 
 app.Run();

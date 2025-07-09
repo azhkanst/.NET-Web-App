@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations; // Optional, for display names
+using System.ComponentModel.DataAnnotations; 
 
 public class AbsenRecordViewModel
 {
@@ -10,6 +10,6 @@ public class AbsenRecordViewModel
     public string Nama { get; set; }
 
     [Display(Name = "Tanggal Absen")]
-    [DataType(DataType.Date)] // To format date nicely in display
+    [DataType(DataType.Date)] 
     public DateTime TanggalAbsen { get; set; }
 }

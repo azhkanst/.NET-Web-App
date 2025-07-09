@@ -75,20 +75,10 @@
 
 @section Scripts {
     @{
-        // This partial renders client-side validation scripts.
-        // It's usually already in your _Layout.cshtml or shared by default.
+
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        // Optional: If you want to use jQuery UI Datepicker instead of HTML5 type="date"
-        // You would need to link jQuery and jQuery UI CDN in your _Layout.cshtml or directly here.
-        /*
-        $(function () {
-            // Assuming you have a class 'datepicker' on your date input
-            $('.datepicker').datepicker({
-                dateFormat: 'yy-mm-dd' // Example format
-            });
-        });
-        */
+
     </script>
 }
