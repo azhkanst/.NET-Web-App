@@ -1,0 +1,94 @@
+﻿@page
+@model Take_Home_Test___Web_App.Pages.AbsenModel
+@{
+    ViewData["Title"] = "Absen Entry & Records";
+}
+
+<h1>Absen Entry & Records</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Input Absen Data</h3>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="AbsenVM.SelectedNIK" class="form-label"></label>
+                <select asp-for="AbsenVM.SelectedNIK" asp-items="@Model.AbsenVM.EmployeeList" class="form-select">
+                    <option value="">-- Pilih NIK - Nama --</option>
+                </select>
+                <span asp-validation-for="AbsenVM.SelectedNIK" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="AbsenVM.TanggalAbsen" class="form-label"></label>
+                <input asp-for="AbsenVM.TanggalAbsen" type="date" class="form-control" />
+                <span asp-validation-for="AbsenVM.TanggalAbsen" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<hr class="my-4" />
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>Absen Records</h3>
+        @if (Model.AbsenVM.AbsenRecords != null && Model.AbsenVM.AbsenRecords.Any())
+        {
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.AbsenVM.AbsenRecords[0].NIK)</th>
+                        <th>@Html.DisplayNameFor(model => model.AbsenVM.AbsenRecords[0].Nama)</th>
+                        <th>@Html.DisplayNameFor(model => model.AbsenVM.AbsenRecords[0].TanggalAbsen)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.AbsenVM.AbsenRecords)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.NIK)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Nama)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TanggalAbsen)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No absen records found.</p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        // This partial renders client-side validation scripts.
+        // It's usually already in your _Layout.cshtml or shared by default.
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Optional: If you want to use jQuery UI Datepicker instead of HTML5 type="date"
+        // You would need to link jQuery and jQuery UI CDN in your _Layout.cshtml or directly here.
+        /*
+        $(function () {
+            // Assuming you have a class 'datepicker' on your date input
+            $('.datepicker').datepicker({
+                dateFormat: 'yy-mm-dd' // Example format
+            });
+        });
+        */
+    </script>
+}
