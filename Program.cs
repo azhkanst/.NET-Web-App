@@ -48,6 +48,6 @@ app.MapGet("/", context => {
     return Task.CompletedTask;
 });
 
-app.MapRazorPages(); // map razor page
+app.MapRazorPages();
 
 app.Run();
